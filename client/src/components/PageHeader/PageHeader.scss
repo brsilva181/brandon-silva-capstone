@@ -1,0 +1,21 @@
+@use "../../partials/mixins" as *;
+@use "../../partials/variables" as *;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: $main;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__title {
+        @include header;
+    }
+}

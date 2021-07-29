@@ -1,0 +1,31 @@
+@use './variables' as *;
+
+@mixin tablet {
+    @media (min-width: $tablet-breakpoint) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin regular {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@mixin demi {
+    font-family: "Raleway", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+@mixin header {
+    font-family: "Playfair Display", serif;
+    font-weight: bold;
+    // font-style: normal;
+}
