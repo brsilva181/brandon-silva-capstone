@@ -1,7 +1,7 @@
 @use "../../partials/mixins" as *;
 @use "../../partials/variables" as *;
 
-.drinkList {
+.drinkDetails {
     background-color: $main;
     margin: 1rem;
     border-radius: 1rem;
@@ -20,7 +20,6 @@
         border-radius: 1rem;
         margin-top: 1rem;
     }
-
     &__image {
         height: 12rem;
         width: 100%;
@@ -28,9 +27,16 @@
         border-top-right-radius: 1rem;
     }
 
+    &__title {
+        @include regular;
+        font-size: 26px;
+        border-bottom: solid 1px $dark;
+        padding: 0.75rem 0rem;
+        margin-bottom: 0.75rem;
+    }
+
     &__text {
         @include regular;
-        font-size: 20px;
-        padding: 0.65rem;
+        padding: 0.75rem;
     }
 }

@@ -1,35 +1,30 @@
 import React from "react";
 import axios from "axios";
+import "./DrinkForm.scss";
 
 class DrinkForm extends React.Component {
     state = {
-        // string[]
         ids: [],
-        // string[]
         ingredients: [],
-        numberOfAcceptableMissingIngredients: 1,
         numberOfIngredientFilters: 1,
     };
 
     handleSubmit = async (e) => {
         const LIMIT = 10;
-        const BASE_URL = "localhost:9000/api/drinks";
+        const BASE_URL = "http://localhost:9000/api/drinks";
         e.preventDefault();
-        const { ids, ingredients, numberOfAcceptableMissingIngredients } =
-            this.state;
+        const { ids, ingredients } = this.state;
         const searchParams = new URLSearchParams();
         searchParams.append("limit", LIMIT);
-        searchParams.append("ids", ids);
-        searchParams.append("ingredients", ingredients.filter(Boolean));
-        searchParams.append(
-            "numberOfAcceptableMissingIngredients",
-            numberOfAcceptableMissingIngredients
-        );
+        ids.length && searchParams.append("ids", ids);
+        ingredients.length &&
+            searchParams.append("ingredients", ingredients.filter(Boolean));
+        console.log("what string did i send", searchParams.toString());
         const { data } = await axios.get(
             `${BASE_URL}?${searchParams.toString()}`
         );
-        this.props.setDrinks(data);
-        this.props.history.push("/list");
+        console.log("what data did i get?", data);
+        this.props.setDrinks(data, () => this.props.history.push("/list"));
     };
     addIngredientFilter = () => {
         const currentNumberOfIngredientFilters =
@@ -65,35 +60,41 @@ class DrinkForm extends React.Component {
                     .fill(null)
                     .map((_, idx) => (
                         <div className='drinkForm__container'>
-                            <label
-                                className='drinkForm__label'
-                                htmlFor={`ingredient-${idx}`}
-                            >
-                                Ingredient
-                            </label>
-                            <input
-                                className='drinkForm__input'
-                                type='text'
-                                id={`ingredient-${idx}`}
-                                name={`ingredient-${idx}`}
-                                onChange={this.handleDrinkInput}
-                            />
-                            <button
-                                className='drinkForm__remove'
-                                type='button'
-                                onClick={() =>
-                                    this.subtractIngredientFilter(idx)
-                                }
-                            >
-                                Remove Ingredient
-                            </button>
-                            <button
-                                className='drinkForm__add'
-                                type='button'
-                                onClick={() => this.addIngredientFilter(idx)}
-                            >
-                                Add Ingredient
-                            </button>
+                            <div className='drinkForm__input-container'>
+                                <label
+                                    className='drinkForm__label'
+                                    htmlFor={`ingredient-${idx}`}
+                                >
+                                    Ingredient
+                                </label>
+                                <input
+                                    className='drinkForm__input'
+                                    type='text'
+                                    id={`ingredient-${idx}`}
+                                    name={`ingredient-${idx}`}
+                                    onChange={this.handleDrinkInput}
+                                />
+                            </div>
+                            <div className='drinkForm__button-container'>
+                                <button
+                                    className='drinkForm__control'
+                                    type='button'
+                                    onClick={() =>
+                                        this.subtractIngredientFilter(idx)
+                                    }
+                                >
+                                    Remove
+                                </button>
+                                <button
+                                    className='drinkForm__control'
+                                    type='button'
+                                    onClick={() =>
+                                        this.addIngredientFilter(idx)
+                                    }
+                                >
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     ))}
                 <button className='drinkForm__button'>Mix!</button>
